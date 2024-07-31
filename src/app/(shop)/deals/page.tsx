@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import ProductItem from "@/components/ui/product-item";
+import ProductItem from "@/components/ui/productItem";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { prismaClient } from "@/lib/prisma";
 import { PercentIcon } from "lucide-react";
