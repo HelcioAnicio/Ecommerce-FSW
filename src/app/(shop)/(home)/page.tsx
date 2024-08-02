@@ -37,13 +37,13 @@ export default async function Home() {
         <Link href="/deals">
           <PromoBanner
             src="/deals-banner.png"
-            className="hidden h-auto w-full lg:block"
+            className="m-auto hidden h-auto w-3/5 rounded-lg lg:block"
             alt="Até 55% de desconto esse mês!"
           />
         </Link>
       </div>
 
-      <div className="mx-auto flex flex-col gap-8 py-8 lg:container lg:gap-10">
+      <div className="mx-auto flex flex-col gap-8 pb-8 pt-0 lg:container lg:gap-10">
         <Link href="/deals">
           <PromoBanner
             src="/banner-home-01.png"
