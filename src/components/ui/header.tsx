@@ -28,6 +28,7 @@ import Link from "next/link";
 import Cart from "./cart";
 import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
+import MenuNavDesktop from "./menuNavDesktop";
 
 const Header = () => {
   const { status, data } = useSession();
@@ -48,7 +49,7 @@ const Header = () => {
     <Card className="flex items-center justify-between p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" className="xl:hidden">
             <MenuIcon />
           </Button>
         </SheetTrigger>
@@ -166,27 +167,71 @@ const Header = () => {
       </Sheet>
 
       <Link href="/">
-        <h1 className="text-lg font-semibold">
-          <span className="text-primary">FSW</span> Store
+        <h1 className="text-lg font-semibold lg:text-4xl">
+          <span className="text-primary lg:text-4xl">FSW</span> Store
         </h1>
       </Link>
 
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button size="icon" variant="outline" className="relative">
-            {cartQuantityItems > 0 && (
-              <span className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold">
-                {cartQuantityItems}
-              </span>
-            )}
-            <ShoppingCartIcon />
-          </Button>
-        </SheetTrigger>
+      <MenuNavDesktop />
 
-        <SheetContent className="w-[350px] lg:w-[600px] lg:max-w-[600px]">
-          <Cart />
-        </SheetContent>
-      </Sheet>
+      <div className="flex items-center gap-8">
+        <div className="hidden xl:block">
+          {status === "authenticated" && data?.user && (
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={handleLogoutClick}
+                variant="outline"
+                className="w-max justify-start gap-2 px-1"
+              >
+                <LogOutIcon size={16} />
+                Logout
+              </Button>
+
+              <div className="flex items-center gap-3">
+                <div className="relative flex flex-col items-start py-4">
+                  <p className="w-max font-medium">{data.user.name}</p>
+                  <p className="-mt-1 text-sm opacity-70">Boas compras!</p>
+                </div>
+                <Avatar>
+                  <AvatarFallback>
+                    {data.user.name?.[0].toUpperCase()}
+                  </AvatarFallback>
+
+                  {data.user.image && <AvatarImage src={data.user.image} />}
+                </Avatar>
+              </div>
+            </div>
+          )}
+
+          {status === "unauthenticated" && (
+            <Button
+              onClick={handleLoginClick}
+              variant="outline"
+              className="w-full justify-start gap-2"
+            >
+              <LogInIcon size={16} />
+              Fazer Login
+            </Button>
+          )}
+        </div>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button size="icon" variant="outline" className="relative">
+              {cartQuantityItems > 0 && (
+                <span className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold">
+                  {cartQuantityItems}
+                </span>
+              )}
+              <ShoppingCartIcon />
+            </Button>
+          </SheetTrigger>
+
+          <SheetContent className="w-[350px] lg:w-[600px] lg:max-w-[600px]">
+            <Cart />
+          </SheetContent>
+        </Sheet>
+      </div>
     </Card>
   );
 };
